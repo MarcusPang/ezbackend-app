@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "es5",
+    "strict": true,
+    "declaration": true,
+    "lib": ["es2017","ESNext", "dom"],
+    "sourceMap": true
+  },
+  "exclude": ["**/dist", "node_modules", "**/node_modules"]
+}
