@@ -1,0 +1,36 @@
+{
+  "name": "ezbackend-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "lint": "eslint --ignore-path .gitignore \"packages/**/*.+(ts|js|tsx)\"",
+    "format": "prettier --ignore-path .gitignore \"packages/**/*.+(ts|js|tsx)\" --write",
+    "dev": "lerna run dev",
+    "postinstall": "husky install"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.4.1",
+    "lerna": "^4.0.0",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.2",
+    "@typescript-eslint/eslint-plugin": "5.5.0",
+    "@typescript-eslint/parser": "5.5.0",
+    "eslint-config-next": "12.0.7",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-import-resolver-typescript": "2.5.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "husky": "7.0.4",
+    "lint-staged": "12.1.2"
+  },
+  "lint-staged": {
+    "./src/**/*.{ts,js,jsx,tsx}": [
+      "yarn lint --fix",
+      "yarn format"
+    ]
+  }
+}
