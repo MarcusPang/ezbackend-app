@@ -1,16 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { headerItems } from '../../constants/links';
+import { headerItems, userDropdownLinks } from '../constants/links';
 
 const Header = () => {
   return (
-    <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content">
-      <div className="flex-1 hidden px-2 mx-2 lg:flex">
+    <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content min-h-16">
+      <div className="items-center flex-1 px-2 mx-2 lg:flex">
         <span className="text-lg font-bold">
           <Link href="/">talkMore</Link>
         </span>
       </div>
-      <div className="flex-1 px-2 mx-2">
+      <div className=" flex-1 px-2 mx-2">
         <div className="items-stretch hidden lg:flex">
           {headerItems.map((item) => (
             <div className="btn btn-ghost btn-md rounded-btn" key={item.name}>
@@ -19,7 +19,7 @@ const Header = () => {
           ))}
         </div>
       </div>
-      <div className="flex-1 lg:flex-none">
+      <div className=" flex-1 lg:flex-none">
         <div className="form-control">
           <input
             type="text"
@@ -62,15 +62,25 @@ const Header = () => {
           </svg>
         </button>
       </div>
-      <div className="flex-none">
-        <div className="avatar">
-          <div className="rounded-full w-10 h-10 m-1 relative">
+      <div className="flex-none ">
+        <div className="avatar dropdown dropdown-end">
+          <div tabIndex={0} className="rounded-full w-10 h-10 m-1 relative">
             <Image
               alt="avatar"
               src="https://i.pravatar.cc/500?Image=32"
               layout="fill"
             />
           </div>
+          <ul
+            tabIndex={0}
+            className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52"
+          >
+            {userDropdownLinks.map((item) => (
+              <li key={item.name}>
+                <Link href={item.link}>{item.name}</Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

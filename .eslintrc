@@ -7,12 +7,19 @@
     "eslint:recommended",
     "standard",
     "prettier",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "next",
+    "next/core-web-vitals"
   ],
   "plugins": ["@typescript-eslint", "prettier"],
   "env": {
     "es6": true,
     "node": true
+  },
+  "settings": {
+    "next": {
+      "rootDir": "packages/frontend"
+    }
   },
   "ignorePatterns": ["dist", "node_modules", "examples"]
 }

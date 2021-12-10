@@ -8,7 +8,8 @@
     "@ezbackend/common": "^0.1.0",
     "@ezbackend/core": "^0.1.0",
     "@ezbackend/cors": "^0.1.0",
-    "@ezbackend/utils": "^0.1.0"
+    "@ezbackend/utils": "^0.1.0",
+    "@hapi/boom": "^9.1.4"
   },
   "devDependencies": {
     "@ezbackend/db-ui": "^0.1.0",
