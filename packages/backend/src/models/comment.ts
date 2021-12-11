@@ -1,8 +1,8 @@
 import { EzModel, Type } from '@ezbackend/common';
 import { checkLoggedIn } from '../utils/checkLoggedIn';
 
-export const post = new EzModel('Post', {
-  poster: {
+export const comment = new EzModel('Comment', {
+  creator: {
     type: Type.MANY_TO_ONE,
     target: 'User',
     joinColumn: true,
@@ -13,17 +13,13 @@ export const post = new EzModel('Post', {
     inverseSide: 'likes',
     nullable: true,
   },
-  posterId: { type: Type.INT, nullable: true },
+  creatorId: { type: Type.INT, nullable: true },
   content: {
     type: Type.VARCHAR,
     default: '',
   },
-  archived: {
-    type: Type.BOOL,
-    default: false,
-  },
 });
 
-post.router
+comment.router
   .for('createOne', 'updateOne', 'deleteOne')
   .preHandler(checkLoggedIn);

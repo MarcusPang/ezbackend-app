@@ -21,7 +21,7 @@
   },
   "scripts": {
     "ezb": "npx ts-node-dev src/index.ts",
-    "start": "npx ts-node-dev src/index.ts",
+    "dev": "npx ts-node-dev src/index.ts",
     "build": "tsc",
     "build:watch": "tsc -w"
   }

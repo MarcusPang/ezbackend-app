@@ -3,8 +3,7 @@ import { EzBackend, EzBackendOpts, RecursivePartial } from '@ezbackend/common';
 import { EzCors } from '@ezbackend/cors';
 import { EzDbUI } from '@ezbackend/db-ui';
 import { EzOpenAPI } from '@ezbackend/openapi';
-import { post } from './models/post';
-import { user } from './models/user';
+import { user, post, comment, follower } from './models';
 
 const app = new EzBackend();
 
@@ -18,6 +17,8 @@ app.addApp(new EzAuth());
 // entities
 app.addApp(user, { prefix: 'user' });
 app.addApp(post, { prefix: 'post' });
+app.addApp(comment, { prefix: 'comment' });
+app.addApp(follower, { prefix: 'follower' });
 
 // orm setup
 let ormConfig: RecursivePartial<EzBackendOpts>['backend']['typeorm'];
@@ -26,7 +27,6 @@ if (process.env.DATABASE_URL) {
     type: 'postgres',
     url: process.env.DATABASE_URL,
     synchronize: true,
-    entities: [""]
   };
 } else {
   ormConfig = {
