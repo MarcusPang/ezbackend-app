@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Head>
         <title>Sample Ezbackend App</title>
         <meta
@@ -16,6 +16,6 @@ export default function Home() {
       <Layout>
         <div>test</div>
       </Layout>
-    </div>
+    </>
   );
 }

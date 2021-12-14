@@ -20,20 +20,18 @@
       },
       "test": {
         "dependsOn": [
-          "^build"
+          "build"
         ],
         "outputs": []
       },
-      "lint": {
-        "outputs": []
-      },
+      "lint": {},
       "dev": {
         "cache": false
       }
     }
   },
   "scripts": {
-    "dev": "turbo run dev --parallel --no-cache",
+    "dev": "turbo run dev --parallel",
     "lint": "eslint --ignore-path .gitignore \"**/*.+(ts|js|tsx)\"",
     "format": "prettier --ignore-path .gitignore \"**/*.+(json|md|html|js|ts|tsx)\" --write",
     "build": "turbo run build",
