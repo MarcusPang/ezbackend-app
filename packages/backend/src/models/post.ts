@@ -8,12 +8,12 @@ export const post = new EzModel('Post', {
     joinColumn: true,
   },
   likedBy: {
-    type: Type.MANY_TO_MANY,
+    type: Type.MANY_TO_ONE,
     target: 'User',
-    inverseSide: 'likes',
+    inverseSide: 'postsLiked',
     nullable: true,
   },
-  posterId: { type: Type.INT, nullable: true },
+  posterId: { type: Type.INT },
   content: {
     type: Type.VARCHAR,
     default: '',

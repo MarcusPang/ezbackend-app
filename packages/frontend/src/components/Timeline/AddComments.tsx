@@ -5,8 +5,8 @@ import {
   SetStateAction,
   useState,
 } from 'react';
-import useUser from '../../hooks/useUser';
-import { Comments } from './Comments';
+import useAuth from '../../hooks/useAuth';
+import { Comments } from '../../types/components';
 
 interface AddCommentProps {
   docId: string;
@@ -23,7 +23,7 @@ const PostAddComment = ({
 }: AddCommentProps) => {
   const [comment, setComment] = useState('');
   // TODO remove displayName
-  const user = useUser();
+  const { user } = useAuth();
 
   const handleSubmitComment: FormEventHandler<
     HTMLFormElement | HTMLButtonElement
@@ -32,7 +32,7 @@ const PostAddComment = ({
 
     setComments([
       ...comments,
-      { displayName: user?.googleData.displayName, comment },
+      { username: user?.googleData.displayName, content: comment },
     ]);
     setComment('');
     // TODO update comments in database
@@ -52,7 +52,7 @@ const PostAddComment = ({
         <input
           aria-label="Add a comment"
           autoComplete="off"
-          className="text-sm text-gray-base w-full mr-3 py-5 px-4"
+          className="text-sm text-gray-base w-full mr-3 py-5 px-4 bg-base-200"
           type="text"
           name="add-comment"
           placeholder="Add a comment..."

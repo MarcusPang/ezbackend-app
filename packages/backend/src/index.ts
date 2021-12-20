@@ -3,16 +3,15 @@ import { EzBackend, EzBackendOpts, RecursivePartial } from '@ezbackend/common';
 import { EzCors } from '@ezbackend/cors';
 import { EzDbUI } from '@ezbackend/db-ui';
 import { EzOpenAPI } from '@ezbackend/openapi';
-import { user, post, comment, follower } from './models';
+import { comment, follower, post, user } from './models';
 
 const app = new EzBackend();
 
-// ---Plugins---
+// plugins
 app.addApp(new EzOpenAPI());
 app.addApp(new EzDbUI());
 app.addApp(new EzCors());
 app.addApp(new EzAuth());
-// ---Plugins---
 
 // entities
 app.addApp(user, { prefix: 'user' });

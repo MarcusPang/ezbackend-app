@@ -2,10 +2,11 @@ import Head from 'next/head';
 import Hero from '../components/Layout/Hero';
 import Layout from '../components/Layout/Layout';
 import Feed from '../components/Feed/Feed';
-import useUser from '../hooks/useUser';
+import useAuth from '../hooks/useAuth';
+import { NextPage } from 'next';
 
-export default function Home() {
-  const user = useUser();
+const Home: NextPage = () => {
+  const { user } = useAuth();
   return (
     <>
       <Head>
@@ -16,8 +17,9 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <Layout>{user ? <Feed /> : <Hero />}</Layout>
     </>
   );
-}
+};
+
+export default Home;

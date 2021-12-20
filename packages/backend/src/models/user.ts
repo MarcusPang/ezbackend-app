@@ -11,15 +11,21 @@ export const user = new EzUser('User', ['google'], {
     inverseSide: 'poster',
     nullable: true,
   },
+  postsLiked: {
+    type: Type.ONE_TO_MANY,
+    target: 'Post',
+    inverseSide: 'likedBy',
+    nullable: true,
+  },
   comments: {
     type: Type.ONE_TO_MANY,
     target: 'Comment',
-    inverseSide: 'creator',
+    inverseSide: 'commenter',
     nullable: true,
   },
-  likes: {
+  commentsLiked: {
     type: Type.ONE_TO_MANY,
-    target: 'Post',
+    target: 'Comment',
     inverseSide: 'likedBy',
     nullable: true,
   },
@@ -54,42 +60,24 @@ user.get('/comments', { preHandler: checkLoggedIn }, async (req) => {
   const comments = comment.getRepo();
   return await comments.find({
     where: {
-      creator: req.user,
+      commenter: req.user,
+    },
+  });
+});
+user.get('/postsLiked', { preHandler: checkLoggedIn }, async (req) => {
+  const posts = post.getRepo();
+  return await posts.find({
+    where: {
+      likedBy: req.user,
     },
   });
 });
 
-// user.post(
-//   '/follow/:userId',
-//   {
-//     schema: {
-//       params: {
-//         type: 'object',
-//         properties: {
-//           userId: { type: 'number' },
-//         },
-//       },
-//     },
-//     preHandler: checkLoggedIn,
-//   },
-//   async (req) => {
-//     // not auto-detecting props?
-//     const userToFollowId = (req.params as { userId: number }).userId;
-
-//     if (userToFollowId === req.user.id) {
-//       throw Boom.badRequest('Cannot follow yourself');
-//     }
-
-//     // const userRepo = user.getRepo();
-//     const followerRepo = follower.getRepo();
-
-//     // userToFollow.followers = [...(userToFollow.followers || []), req.user];
-//     // await userRepo.save(userToFollow);
-//     // req.user.follows = [...(req.user.follows || []), userToFollow];
-
-//     return followerRepo.create({
-//       userId: userToFollowId,
-//       followerId: req.user.id,
-//     });
-//   },
-// );
+user.get('/commentsLiked', { preHandler: checkLoggedIn }, async (req) => {
+  const comments = comment.getRepo();
+  return await comments.find({
+    where: {
+      likedBy: req.user,
+    },
+  });
+});

@@ -39,7 +39,7 @@ const PostActions = ({
             stroke="currentColor"
             tabIndex={0}
             className={`w-8 mr-4 select-none cursor-pointer focus:outline-none ${
-              toggleLiked ? 'fill-red text-red-primary' : 'text-black-light'
+              toggleLiked && 'text-red-500 fill-red-500'
             }`}
           >
             <path

@@ -21,6 +21,8 @@ Users can:
 - TypeScript
 - Tailwindcss
 
+Icons from [flaticons](https://www.flaticon.com/)
+
 ### Backend
 
 - Ezbackend

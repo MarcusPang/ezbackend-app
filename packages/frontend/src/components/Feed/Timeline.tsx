@@ -1,29 +1,7 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
-import PostCard, { PostContent } from '../PostCard/PostCard';
-
-const following = ['1'];
-const photos: PostContent[] = [
-  {
-    docId: '1',
-    caption: 'caption',
-    comments: [
-      {
-        comment: 'comment',
-        displayName: 'marcus',
-      },
-      {
-        comment: 'comment',
-        displayName: 'someone',
-      },
-    ],
-    dateCreated: new Date(),
-    imageSrc: 'https://i.pravatar.cc',
-    likes: [1],
-    userLikedPhoto: false,
-    username: 'marcus',
-  },
-];
+import { following, photos } from '../../constants/sampleData';
+import PostCard from '../Timeline/PostCard';
 
 const Timeline = () => {
   return (
@@ -36,7 +14,7 @@ const Timeline = () => {
         </p>
       ) : photos ? (
         photos.map((content) => (
-          <PostCard key={content.docId} content={content} />
+          <PostCard key={content.postId} content={content} />
         ))
       ) : undefined}
     </div>
