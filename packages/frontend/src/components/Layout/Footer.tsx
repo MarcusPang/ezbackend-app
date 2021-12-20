@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { footerItems } from '../constants/links';
+import { footerItems } from '../../constants/links';
 
 const Footer = () => {
   return (

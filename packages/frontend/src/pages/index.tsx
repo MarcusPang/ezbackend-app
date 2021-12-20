@@ -1,7 +1,11 @@
 import Head from 'next/head';
-import Layout from '../components/Layout';
+import Hero from '../components/Layout/Hero';
+import Layout from '../components/Layout/Layout';
+import Feed from '../components/Feed/Feed';
+import useUser from '../hooks/useUser';
 
 export default function Home() {
+  const user = useUser();
   return (
     <>
       <Head>
@@ -13,9 +17,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
-        <div>test</div>
-      </Layout>
+      <Layout>{user ? <Feed /> : <Hero />}</Layout>
     </>
   );
 }
