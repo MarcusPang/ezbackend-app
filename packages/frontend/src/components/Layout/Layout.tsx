@@ -9,7 +9,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div>
       <Header />
-      <main>{children}</main>
+      <main className="mx-auto max-w-screen-xl">{children}</main>
       <Footer />
     </div>
   );

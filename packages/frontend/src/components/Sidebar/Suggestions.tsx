@@ -1,14 +1,21 @@
 import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { suggestedProfiles } from '../../constants/sampleData';
-import { Profile } from '../../types/components';
+import customFetch from '../../libs/customFetch';
+import { User } from '../../types/components';
+import formatGoogleUsername from '../../utils/formatGoogleUsername';
 import SuggestedProfile from './SuggestedProfile';
 
 const Suggestions = () => {
-  const [profiles, setProfiles] = useState<Profile[] | null>(null);
+  const [profiles, setProfiles] = useState<User[] | null>(null);
+
+  // TODO implement pagination
+  const getSuggestions = async () => {
+    const data = (await customFetch.get('user/suggestions')) as User[];
+    setProfiles(data);
+  };
 
   useEffect(() => {
-    setProfiles(suggestedProfiles);
+    getSuggestions();
   }, []);
 
   return !profiles ? (
@@ -20,7 +27,12 @@ const Suggestions = () => {
       </div>
       <div className="mt-4 grid gap-5">
         {profiles.map((profile) => (
-          <SuggestedProfile key={profile.userId} profileId={profile.userId} />
+          <SuggestedProfile
+            key={profile.id}
+            profileId={profile.id}
+            username={formatGoogleUsername(profile)}
+            avatarUrl={profile.googleData.photos[0].value}
+          />
         ))}
       </div>
     </div>

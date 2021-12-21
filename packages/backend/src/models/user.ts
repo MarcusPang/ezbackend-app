@@ -1,6 +1,6 @@
 import { EzUser } from '@ezbackend/auth';
 import { Type } from '@ezbackend/common';
-import { comment } from '.';
+import { comment, follower } from '.';
 import { checkLoggedIn } from '../utils/checkLoggedIn';
 import { post } from './post';
 
@@ -48,25 +48,17 @@ user.get('/current', async (req) => {
 });
 
 user.get('/posts', { preHandler: checkLoggedIn }, async (req) => {
-  const posts = post.getRepo();
-  return await posts.find({
+  const postRepo = post.getRepo();
+  return await postRepo.find({
     where: {
       poster: req.user,
     },
   });
 });
 
-user.get('/comments', { preHandler: checkLoggedIn }, async (req) => {
-  const comments = comment.getRepo();
-  return await comments.find({
-    where: {
-      commenter: req.user,
-    },
-  });
-});
 user.get('/postsLiked', { preHandler: checkLoggedIn }, async (req) => {
-  const posts = post.getRepo();
-  return await posts.find({
+  const postRepo = post.getRepo();
+  return await postRepo.find({
     where: {
       likedBy: req.user,
     },
@@ -74,10 +66,60 @@ user.get('/postsLiked', { preHandler: checkLoggedIn }, async (req) => {
 });
 
 user.get('/commentsLiked', { preHandler: checkLoggedIn }, async (req) => {
-  const comments = comment.getRepo();
-  return await comments.find({
+  const commentRepo = comment.getRepo();
+  return await commentRepo.find({
     where: {
       likedBy: req.user,
     },
   });
+});
+
+user.get('/followers', { preHandler: checkLoggedIn }, async (req) => {
+  const followerRepo = follower.getRepo();
+  const userRepo = user.getRepo();
+
+  const followers = await followerRepo.find({
+    where: {
+      userId: req.user.id,
+    },
+  });
+  const followingIds = followers.map((follower) => follower.userId);
+
+  return await userRepo.findByIds(followingIds);
+});
+
+user.get('/following', { preHandler: checkLoggedIn }, async (req) => {
+  const followerRepo = follower.getRepo();
+  const userRepo = user.getRepo();
+
+  const followers = await followerRepo.find({
+    where: {
+      followerId: req.user.id,
+    },
+  });
+  const followingIds = followers.map((follower) => follower.userId);
+
+  return await userRepo.findByIds(followingIds);
+});
+
+// dummy suggestions endpoint which returns userIds of users not followed by current user
+user.get('/suggestions', { preHandler: checkLoggedIn }, async (req) => {
+  const followerRepo = follower.getRepo();
+  const userRepo = user.getRepo();
+
+  const followers = await followerRepo.find({
+    where: {
+      followerId: req.user.id,
+    },
+  });
+  const followingIds = followers.map((follower) => follower.userId);
+
+  const users = await userRepo.find();
+  const userIds = users.map((user) => user.id);
+
+  const suggestionIds = userIds.filter(
+    (user) => !followingIds.includes(user) && user !== req.user.id,
+  );
+
+  return await userRepo.findByIds(suggestionIds);
 });

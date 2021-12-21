@@ -14,9 +14,11 @@ export const post = new EzModel('Post', {
     nullable: true,
   },
   posterId: { type: Type.INT },
-  content: {
+  caption: {
     type: Type.VARCHAR,
-    default: '',
+  },
+  imageUrl: {
+    type: Type.VARCHAR,
   },
   archived: {
     type: Type.BOOL,
@@ -27,3 +29,25 @@ export const post = new EzModel('Post', {
 post.router
   .for('createOne', 'updateOne', 'deleteOne')
   .preHandler(checkLoggedIn);
+
+// TODO check how to get querystring without schema like default CRUD
+post.get(
+  '/user/:userId',
+  {
+    schema: {
+      querystring: {
+        userId: { type: 'number' },
+      },
+    },
+  },
+  async (req) => {
+    const userId = (req.query as { userId: number }).userId;
+    const postRepo = post.getRepo();
+
+    return await postRepo.find({
+      where: {
+        posterId: userId,
+      },
+    });
+  },
+);

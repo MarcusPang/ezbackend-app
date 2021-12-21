@@ -1,4 +1,4 @@
-import { PostContent, Profile } from '../types/components';
+import { PostContent, User } from '../types/components';
 
 export const headerItems = [
   {
@@ -32,10 +32,6 @@ export const footerItems = [
 
 export const userDropdownLinks = [
   {
-    name: 'Profile',
-    link: '/profile',
-  },
-  {
     name: 'Settings',
     link: '/profile/settings',
   },
@@ -49,9 +45,47 @@ export const DEFAULT_AVATAR_URL = 'https://i.pravatar.cc';
 
 export const following = ['1'];
 
+export const sampleUser: User = {
+  id: 1,
+  googleId: '104153272468214089753',
+  googleData: {
+    id: '104153272468214089753',
+    displayName: 'Marcus Pang',
+    name: {
+      familyName: 'Pang',
+      givenName: 'Marcus',
+    },
+    emails: [
+      {
+        value: 'marcuspangyuyang@gmail.com',
+        verified: true,
+      },
+    ],
+    photos: [
+      {
+        value:
+          'https://lh3.googleusercontent.com/a/AATXAJxQIm28iBCHCfisSz0wCt7fVewJ6GKT80ATXybh=s96-c',
+      },
+    ],
+    provider: 'google',
+    _raw: '{\n  "sub": "104153272468214089753",\n  "name": "Marcus Pang",\n  "given_name": "Marcus",\n  "family_name": "Pang",\n  "picture": "https://lh3.googleusercontent.com/a/AATXAJxQIm28iBCHCfisSz0wCt7fVewJ6GKT80ATXybh\\u003ds96-c",\n  "email": "marcuspangyuyang@gmail.com",\n  "email_verified": true,\n  "locale": "en-GB"\n}',
+    _json: {
+      sub: '104153272468214089753',
+      name: 'Marcus Pang',
+      given_name: 'Marcus',
+      family_name: 'Pang',
+      picture:
+        'https://lh3.googleusercontent.com/a/AATXAJxQIm28iBCHCfisSz0wCt7fVewJ6GKT80ATXybh=s96-c',
+      email: 'marcuspangyuyang@gmail.com',
+      email_verified: true,
+      locale: 'en-GB',
+    },
+  },
+};
+
 export const photos: PostContent[] = [
   {
-    postId: '1',
+    postId: 1,
     postCaption: 'caption',
     postComments: [
       {
@@ -64,13 +98,13 @@ export const photos: PostContent[] = [
       },
     ],
     dateCreated: new Date(),
-    postImageSrc: DEFAULT_AVATAR_URL,
+    postImageSrc: 'https://cataas.com/cat',
     postLikes: [1],
     userLikedPhoto: false,
-    postUser: 'marcus',
+    postUser: sampleUser,
   },
   {
-    postId: '2',
+    postId: 2,
     postCaption: 'post 2',
     postComments: [
       {
@@ -83,13 +117,9 @@ export const photos: PostContent[] = [
       },
     ],
     dateCreated: new Date(),
-    postImageSrc: DEFAULT_AVATAR_URL,
+    postImageSrc: 'https://cataas.com/cat',
     postLikes: [1, 2],
     userLikedPhoto: false,
-    postUser: 'marcus',
+    postUser: sampleUser,
   },
-];
-
-export const suggestedProfiles: Profile[] = [
-  { userId: 1, username: 'someone' },
 ];

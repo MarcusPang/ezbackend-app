@@ -21,3 +21,39 @@ export const follower = new EzModel('Follower', {
 });
 
 follower.router.for('createOne', 'deleteOne').preHandler(checkLoggedIn);
+
+follower.delete(
+  '/unfollow',
+  {
+    schema: {
+      body: {
+        type: 'object',
+        properties: {
+          userId: { type: 'number' },
+          followerId: { type: 'number' },
+        },
+      },
+    },
+    preHandler: checkLoggedIn,
+  },
+  async (req) => {
+    const { userId, followerId } = req.body as {
+      userId: number;
+      followerId: number;
+    };
+
+    // check if logged in user is the one unfollowing
+    // TODO do the same when following another user
+    if (req.user.id !== followerId) {
+      return {
+        success: false,
+      };
+    }
+
+    const followerRepo = follower.getRepo();
+    const result = await followerRepo.delete({ userId, followerId });
+    return {
+      success: !!result.affected,
+    };
+  },
+);

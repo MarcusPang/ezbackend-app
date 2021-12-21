@@ -2,15 +2,23 @@ export interface Comments {
   username: string; // user who commented
   content: string;
 }
+export interface Post {
+  id: number;
+  posterId: number;
+  caption: string;
+  imageUrl: string;
+  dateCreated: Date;
+  archived: boolean;
+}
 
 export interface PostContent {
-  postId: string;
-  postUser: string; // user who posted
+  postId: number;
+  postUser: User; // user who posted
   postImageSrc: string;
   postCaption: string;
   postLikes: number[]; // userId of those who liked
   postComments: Comments[];
-  userLikedPhoto: boolean;
+  userLikedPhoto: boolean; // TODO check if current user in postLikes
   dateCreated: Date;
 }
 
@@ -32,10 +40,6 @@ export interface User {
     photos: { value: string }[];
     provider: string;
     _raw: any;
+    _json: any;
   };
-}
-
-export interface Profile {
-  userId: number;
-  username: string;
 }

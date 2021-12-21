@@ -7,7 +7,7 @@ const Timeline = () => {
   return (
     <div className="container col-span-2">
       {!following ? (
-        <Skeleton count={2} width={640} height={500} className="mb-5" />
+        <Skeleton count={2} width={640} height={400} className="mb-5" />
       ) : following.length === 0 ? (
         <p className="flex justify-center font-bold">
           Follow other people to see Photos

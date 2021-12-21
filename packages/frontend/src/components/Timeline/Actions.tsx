@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
 interface ActionsProps {
-  docId: string;
+  postId: number;
   totalLikes: number;
   likedPhoto: boolean;
   handleFocus: () => void;
 }
 
 const PostActions = ({
-  docId,
+  postId,
   totalLikes,
   likedPhoto,
   handleFocus,

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { SVGProps } from 'react';
 import { userDropdownLinks } from '../../constants/sampleData';
 import useAuth from '../../hooks/useAuth';
 import {
@@ -7,8 +8,41 @@ import {
   HeartIcon,
   HomeIcon,
   MessageIcon,
+  PlusIcon,
   SearchIcon,
 } from '../Icons';
+
+const icons: {
+  href: string;
+  alt: string;
+  icon: (props: SVGProps<SVGSVGElement>) => JSX.Element;
+}[] = [
+  {
+    href: '/',
+    alt: 'home',
+    icon: HomeIcon,
+  },
+  {
+    href: '/messages',
+    alt: 'messages',
+    icon: MessageIcon,
+  },
+  {
+    href: '/upload',
+    alt: 'upload',
+    icon: PlusIcon,
+  },
+  {
+    href: '/search',
+    alt: 'search',
+    icon: CompassIcon,
+  },
+  {
+    href: '/liked',
+    alt: 'liked photos',
+    icon: HeartIcon,
+  },
+];
 
 const Header = () => {
   const { user } = useAuth();
@@ -35,26 +69,15 @@ const Header = () => {
             <SearchIcon width={24} height={24} />
           </button>
         </div>
-        <div className="flex-none">
-          <button className="btn btn-square btn-ghost">
-            <HomeIcon width={24} height={24} />
-          </button>
-        </div>
-        <div className="flex-none">
-          <button className="btn btn-square btn-ghost">
-            <MessageIcon width={24} height={24} />
-          </button>
-        </div>
-        <div className="flex-none">
-          <button className="btn btn-square btn-ghost">
-            <CompassIcon width={24} height={24} />
-          </button>
-        </div>
-        <div className="flex-none">
-          <button className="btn btn-square btn-ghost">
-            <HeartIcon width={24} height={24} />
-          </button>
-        </div>
+        {icons.map((icon) => (
+          <div className="flex-none" key={icon.alt}>
+            <Link href={icon.href} passHref>
+              <a className="btn btn-square btn-ghost">
+                <icon.icon width={24} height={24} />
+              </a>
+            </Link>
+          </div>
+        ))}
         <div className="flex-none">
           <div className="avatar dropdown dropdown-end">
             <div
@@ -64,6 +87,7 @@ const Header = () => {
               {user ? (
                 <Image
                   alt="avatar"
+                  className="hover:opacity-70 transition-opacity ease-in-out"
                   src={user.googleData.photos[0].value}
                   layout="fill"
                 />
@@ -95,6 +119,9 @@ const Header = () => {
                 tabIndex={0}
                 className="p-2 menu dropdown-content bg-base-200 rounded-lg shadow-xl w-40"
               >
+                <li>
+                  <Link href={'/profile/' + user.id}>Profile</Link>
+                </li>
                 {userDropdownLinks.map((item) => (
                   <li key={item.name}>
                     <Link href={item.link}>{item.name}</Link>
@@ -106,8 +133,9 @@ const Header = () => {
                       process.env.NEXT_PUBLIC_BACKEND_URL +
                       '/user/auth/google/logout'
                     }
+                    passHref
                   >
-                    Log out
+                    <a>Log out</a>
                   </Link>
                 </li>
               </ul>
