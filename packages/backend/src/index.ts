@@ -43,7 +43,15 @@ if (process.env.DATABASE_URL) {
 }
 
 app.start({
-  backend: { typeorm: ormConfig },
+  backend: {
+    typeorm: ormConfig,
+    listen: {
+      address: '0.0.0.0',
+    },
+    fastify: {
+      trustProxy: true,
+    },
+  },
   auth: {
     successRedirectURL: process.env.AUTH_SUCCESS_REDIRECT,
   },
