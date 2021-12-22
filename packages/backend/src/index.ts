@@ -50,6 +50,9 @@ app.start({
     },
     fastify: {
       trustProxy: true,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      https: true,
     },
   },
   auth: {
