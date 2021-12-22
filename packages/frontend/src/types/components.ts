@@ -21,17 +21,6 @@ export interface Post {
   poster: User;
 }
 
-export interface PostContent {
-  id: number;
-  poster: User; // user who posted
-  imageUrl: string;
-  caption: string;
-  likes: number[]; // userId of those who liked
-  comments: Comments[];
-  userLikedPhoto: boolean; // TODO check if current user in postLikes
-  dateCreated: Date;
-}
-
 // google user only
 export interface User {
   id: number;
@@ -55,3 +44,15 @@ export interface User {
   followers: User[];
   following: User[];
 }
+
+export interface Error {
+  statusCode: number;
+  error: string;
+  message: string;
+}
+
+export interface CustomSuccess {
+  success: boolean;
+}
+
+export type CustomResponse = Error | CustomSuccess;

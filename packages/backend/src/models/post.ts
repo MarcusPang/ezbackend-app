@@ -2,6 +2,7 @@ import { EzModel, Type } from '@ezbackend/common';
 import { checkLoggedIn } from '../utils/checkLoggedIn';
 import { user } from './user';
 
+// TODO change eager to lazy
 export const post = new EzModel('Post', {
   poster: {
     type: Type.MANY_TO_ONE,
@@ -12,9 +13,9 @@ export const post = new EzModel('Post', {
   },
   comments: {
     type: Type.ONE_TO_MANY,
-    target: "Comment",
+    target: 'Comment',
     inverseSide: 'post',
-    joinColumn: true
+    joinColumn: true,
   },
   likedBy: {
     type: Type.MANY_TO_MANY,
@@ -30,6 +31,10 @@ export const post = new EzModel('Post', {
   },
   imageUrl: {
     type: Type.VARCHAR,
+  },
+  dateCreated: {
+    type: Type.DATE,
+    default: new Date(),
   },
   archived: {
     type: Type.BOOL,
@@ -68,14 +73,27 @@ post.post(
   {
     schema: {
       body: {
-        postId: { type: 'number' },
-        userId: { type: 'number' },
+        type: 'object',
+        properties: {
+          postId: { type: 'number' },
+          userId: { type: 'number' },
+        },
       },
     },
     preHandler: checkLoggedIn,
   },
   async (req) => {
     const { userId, postId } = req.body as { userId: number; postId: number };
+
+    // check if user liking is current user
+    if (req.user.id !== userId) {
+      return {
+        statusCode: 401,
+        error: 'Post like error',
+        message: 'User id does not match current user',
+      };
+    }
+
     const userRepo = user.getRepo();
     const postRepo = post.getRepo();
     try {
@@ -84,7 +102,7 @@ post.post(
 
       postLiked.likedBy = [...(postLiked.likedBy || []), userLiked];
 
-      const result = await postRepo.save(postLiked);
+      await postRepo.save(postLiked);
     } catch (e) {
       console.log(e);
       return {
@@ -93,6 +111,57 @@ post.post(
         message: e.message,
       };
     }
+    return {
+      success: true,
+    };
+  },
+);
+
+post.delete(
+  '/unlike',
+  {
+    schema: {
+      body: {
+        type: 'object',
+        properties: {
+          userId: { type: 'number' },
+          postId: { type: 'number' },
+        },
+      },
+    },
+    preHandler: checkLoggedIn,
+  },
+  async (req) => {
+    const { userId, postId } = req.body as {
+      userId: number;
+      postId: number;
+    };
+
+    // check if logged in user is the one unfollowing
+    if (req.user.id !== userId) {
+      return {
+        statusCode: 401,
+        error: 'Post unlike error',
+        message: 'User id does not match current user',
+      };
+    }
+
+    const postRepo = post.getRepo();
+
+    try {
+      const postUnliked = await postRepo.findOne(postId);
+      postUnliked.likedBy = postUnliked.likedBy.filter(
+        (user) => user.id !== userId,
+      );
+      await postRepo.save(postUnliked);
+    } catch (e) {
+      return {
+        statusCode: 404,
+        error: 'Post unlike error',
+        message: e.message,
+      };
+    }
+
     return {
       success: true,
     };

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { forwardRef, useState } from 'react';
 import useComment from '../../hooks/useComment';
 import PostAddComment from './AddComments';
+import MoreCommentsButton from './MoreCommentsButton';
 
 interface CommentsProps {
   postId: number;
@@ -11,54 +12,8 @@ interface CommentsProps {
 
 const PostComments = forwardRef<HTMLInputElement, CommentsProps>(
   ({ postId, posted }, commentInput) => {
-    // const [comments, setComments] = useState(allComments);
-    const { comments, isLoading } = useComment(postId);
     const [commentsSlice, setCommentsSlice] = useState(0);
-
-    const showMoreComments = () => {
-      setCommentsSlice((current) => Math.min(current + 3, comments.length));
-    };
-
-    const hideMoreComments = () => {
-      setCommentsSlice(0);
-    };
-
-    const MoreCommentsButton = () => {
-      if (comments?.length > 0) {
-        if (commentsSlice < comments.length) {
-          return (
-            <button
-              className="text-sm text-gray-base mb-1 cursor-pointer focus:outline-none"
-              type="button"
-              onClick={showMoreComments}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter') {
-                  showMoreComments();
-                }
-              }}
-            >
-              View more comments
-            </button>
-          );
-        } else if (commentsSlice === comments.length) {
-          return (
-            <button
-              className="text-sm text-gray-base mb-1 cursor-pointer focus:outline-none"
-              type="button"
-              onClick={hideMoreComments}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter') {
-                  hideMoreComments();
-                }
-              }}
-            >
-              View less comments
-            </button>
-          );
-        }
-      }
-      return null;
-    };
+    const { comments, isLoading, mutate } = useComment(postId);
 
     return (
       <>
@@ -77,12 +32,16 @@ const PostComments = forwardRef<HTMLInputElement, CommentsProps>(
                 <span>{item.content}</span>
               </p>
             ))}
-          <MoreCommentsButton />
+          <MoreCommentsButton
+            postId={postId}
+            commentsSlice={commentsSlice}
+            setCommentsSlice={setCommentsSlice}
+          />
           <p className="text-slate-400 uppercase text-xs mt-2">
             {formatDistance(posted, new Date())} ago
           </p>
         </div>
-        <PostAddComment postId={postId} ref={commentInput} />
+        <PostAddComment postId={postId} ref={commentInput} mutate={mutate} />
       </>
     );
   },

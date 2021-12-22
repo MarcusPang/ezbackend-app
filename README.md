@@ -1,4 +1,4 @@
-# sample
+# Sample App
 
 Social Media application built using ezbackend
 
@@ -6,12 +6,14 @@ Social Media application built using ezbackend
 
 Users can:
 
-- post and comment under post (post text, images, videos)
-- like posts and comments
-- befriend each other
-- chat with other users
-- follow other users
-- join communities and chat with other users in a group chat
+- [x] add posts 
+- [x] comment under post 
+- [x] see user posts
+- [x] like posts
+- [ ] like comments
+- [ ] follow each other
+- [ ] chat with other users
+- [ ] join communities and chat with other users in a group chat
 
 ## Tech Stack
 
@@ -20,6 +22,7 @@ Users can:
 - Next.js
 - TypeScript
 - Tailwindcss
+- Daisy UI
 
 Icons from [flaticons](https://www.flaticon.com/)
 

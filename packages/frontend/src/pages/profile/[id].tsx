@@ -29,6 +29,7 @@ const Profile: NextPage<
         <ProfileInfo userId={+userId!} />
         <div className="grid grid-cols-3 gap-3">
           {!isLoading &&
+            posts &&
             (posts as Post[]).map((post) => (
               <div
                 className="relative h-80 hover:opacity-80 ease-in-out transition-opacity rounded-lg shadow-lg"
@@ -40,7 +41,6 @@ const Profile: NextPage<
                   src={post.imageUrl}
                   alt={post.imageUrl}
                 />
-                ;
               </div>
             ))}
         </div>

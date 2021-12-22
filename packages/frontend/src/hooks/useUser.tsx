@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import customFetch, { completeURL } from '../libs/customFetch';
+import customFetch, { completeURL } from '../utils/customFetch';
 import { User } from '../types/components';
 
 const useUser = (id?: number) => {

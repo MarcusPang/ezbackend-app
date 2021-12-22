@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import customFetch, { completeURL } from '../libs/customFetch';
+import customFetch, { completeURL } from '../utils/customFetch';
 import { User } from '../types/components';
 
 // TODO implement paginations
@@ -8,10 +8,9 @@ const useSuggestions = () => {
     completeURL(`/user/suggestions`),
     customFetch.get,
   );
-  const profiles = data && Object.keys(data).map((k) => data[k]);
 
   return {
-    profiles: profiles as User[],
+    profiles: data as User[],
     isLoading: !error && !data,
     isError: error,
     mutate,

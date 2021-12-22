@@ -1,7 +1,7 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['i.pravatar.cc', 'lh3.googleusercontent.com', 'cataas.com'],
+    domains: ['i.pravatar.cc', 'lh3.googleusercontent.com'],
   },
   webpack(config) {
     config.module.rules.push({

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { DEFAULT_AVATAR_URL } from '../../constants/sampleData';
 import useUser from '../../hooks/useUser';
-import customFetch from '../../libs/customFetch';
+import customFetch from '../../utils/customFetch';
 
 interface SuggestedProfileProps {
   profileId: number;

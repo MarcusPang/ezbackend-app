@@ -10,10 +10,12 @@ import {
 } from '../Icons';
 import HeaderAvatar from './Avatar';
 
+// TODO add notifications
 const icons: {
   href: string;
   alt: string;
   icon: (props: SVGProps<SVGSVGElement>) => JSX.Element;
+  notifications?: boolean;
 }[] = [
   {
     href: '/',
@@ -24,6 +26,7 @@ const icons: {
     href: '/messages',
     alt: 'messages',
     icon: MessageIcon,
+    notifications: true,
   },
   {
     href: '/upload',

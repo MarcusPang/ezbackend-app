@@ -1,13 +1,12 @@
-import Image from 'next/image';
 import { useRef } from 'react';
-import { PostContent } from '../../types/components';
+import { Post } from '../../types/components';
 import formatGoogleUsername from '../../utils/formatGoogleUsername';
 import PostActions from './Actions';
 import PostComments from './Comments';
 import PostFooter from './Footer';
 import PostHeader from './Header';
 
-const PostCard = ({ content }: { content: PostContent }) => {
+const PostCard = ({ content }: { content: Post }) => {
   const commentInput = useRef<HTMLInputElement>(null);
   const handleFocus = () => commentInput?.current?.focus();
 
@@ -18,13 +17,12 @@ const PostCard = ({ content }: { content: PostContent }) => {
         username={formatGoogleUsername(content.poster)}
         avatarUrl={content.poster.googleData.photos[0].value}
       />
-      <div className="relative h-[400px] object-cover">
-        <Image src={content.imageUrl} layout="fill" alt={content.caption} />
+      <div className="relative h-[500px] object-cover overflow-hidden">
+        <img src={content.imageUrl} className="w-full" alt={content.caption} />
       </div>
       <PostActions
         postId={content.id}
-        totalLikes={content.likes.length}
-        likedPhoto={content.userLikedPhoto}
+        likedBy={content.likedBy}
         handleFocus={handleFocus}
       />
       <PostFooter
@@ -33,7 +31,7 @@ const PostCard = ({ content }: { content: PostContent }) => {
       />
       <PostComments
         postId={content.id}
-        posted={content.dateCreated}
+        posted={new Date(content.dateCreated)}
         ref={commentInput}
       />
     </div>

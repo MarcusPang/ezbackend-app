@@ -3,7 +3,7 @@ import { FormEventHandler, useEffect, useState } from 'react';
 import Layout from '../components/Layout/Layout';
 import PostFooter from '../components/Timeline/Footer';
 import useUser from '../hooks/useUser';
-import customFetch from '../libs/customFetch';
+import customFetch from '../utils/customFetch';
 import formatGoogleUsername from '../utils/formatGoogleUsername';
 
 const Upload: NextPage = () => {
@@ -100,7 +100,12 @@ const Upload: NextPage = () => {
               value={caption}
               onChange={(e) => setCaption(e.target.value)}
             />
-            <button type="submit" className={'btn btn-primary mt-4'}>
+            <button
+              type="submit"
+              className={`btn mt-4 ${
+                valid ? 'btn-primary' : 'btn-disabled border-2 border-slate-600'
+              }`}
+            >
               Upload
             </button>
           </form>

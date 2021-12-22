@@ -1,17 +1,17 @@
 import { FormEventHandler, forwardRef, useState } from 'react';
-import useComment from '../../hooks/useComment';
+import { KeyedMutator } from 'swr';
 import useUser from '../../hooks/useUser';
-import customFetch from '../../libs/customFetch';
+import customFetch from '../../utils/customFetch';
 import formatGoogleUsername from '../../utils/formatGoogleUsername';
 
 interface AddCommentProps {
   postId: number;
+  mutate: KeyedMutator<any>;
 }
 
 const PostAddComment = forwardRef<HTMLInputElement, AddCommentProps>(
-  ({ postId }, commentInput) => {
+  ({ postId, mutate }, commentInput) => {
     const [newComment, setNewComment] = useState('');
-    const { mutate } = useComment(postId);
     const { user } = useUser();
 
     const handleSubmitComment: FormEventHandler<

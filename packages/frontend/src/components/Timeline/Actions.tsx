@@ -1,25 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useUser from '../../hooks/useUser';
+import customFetch from '../../utils/customFetch';
+import { CustomResponse, CustomSuccess, User } from '../../types/components';
 
 interface ActionsProps {
   postId: number;
-  totalLikes: number;
-  likedPhoto: boolean;
+  likedBy: User[];
   handleFocus: () => void;
 }
 
-const PostActions = ({
-  postId,
-  totalLikes,
-  likedPhoto,
-  handleFocus,
-}: ActionsProps) => {
-  const [toggleLiked, setToggleLiked] = useState(likedPhoto);
-  const [likes, setLikes] = useState(totalLikes);
+const PostActions = ({ postId, likedBy, handleFocus }: ActionsProps) => {
+  const [toggleLiked, setToggleLiked] = useState(false);
+  const [likes, setLikes] = useState(likedBy.length);
+  const { user, isLoading } = useUser();
+
+  useEffect(() => {
+    if (likedBy.filter((liker) => liker.id === user.id).length === 1) {
+      setToggleLiked(true);
+    }
+  }, [isLoading, user]);
 
   const handleToggleLiked = async () => {
-    setToggleLiked((toggleLiked) => !toggleLiked);
-
-    setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));
+    let response: CustomResponse;
+    if (!toggleLiked) {
+      response = (await customFetch.post('/post/like', {
+        postId,
+        userId: user.id,
+      })) as CustomResponse;
+    } else {
+      response = (await customFetch.delete('/post/unlike', {
+        postId,
+        userId: user.id,
+      })) as CustomResponse;
+    }
+    if ((response as CustomSuccess).success) {
+      setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));
+      setToggleLiked((toggleLiked) => !toggleLiked);
+    }
   };
 
   return (
