@@ -30,13 +30,18 @@
       }
     }
   },
+  "engines": {
+    "node": "14.x",
+    "yarn": "1.x"
+  },
   "scripts": {
     "dev": "turbo run dev --parallel",
     "lint": "eslint --ignore-path .gitignore \"**/*.+(ts|js|tsx)\"",
     "format": "prettier --ignore-path .gitignore \"**/*.+(json|md|html|js|ts|tsx)\" --write",
     "build": "turbo run build",
     "postinstall": "husky install",
-    "heroku-postbuild": "yarn workspace backend build"
+    "heroku-postbuild": "yarn workspace backend build",
+    "start": "yarn workspace backend start"
   },
   "lint-staged": {
     "*.{js, ts, tsx}": [
