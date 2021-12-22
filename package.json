@@ -35,7 +35,8 @@
     "lint": "eslint --ignore-path .gitignore \"**/*.+(ts|js|tsx)\"",
     "format": "prettier --ignore-path .gitignore \"**/*.+(json|md|html|js|ts|tsx)\" --write",
     "build": "turbo run build",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "heroku-postbuild": "yarn workspace backend build"
   },
   "lint-staged": {
     "*.{js, ts, tsx}": [
