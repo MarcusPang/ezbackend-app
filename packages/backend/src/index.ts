@@ -26,6 +26,13 @@ if (process.env.DATABASE_URL) {
     type: 'postgres',
     url: process.env.DATABASE_URL,
     synchronize: true,
+    extra: {
+      ssl: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        rejectUnauthorized: false,
+      },
+    },
   };
 } else {
   ormConfig = {
@@ -38,7 +45,6 @@ if (process.env.DATABASE_URL) {
 app.start({
   backend: { typeorm: ormConfig },
   auth: {
-    // successRedirectURL: process.env.AUTH_SUCCESS_REDIRECT,
-    successRedirectURL: "http://localhost:3000",
+    successRedirectURL: process.env.AUTH_SUCCESS_REDIRECT,
   },
 });

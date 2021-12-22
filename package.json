@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "packages/frontend",
-    "packages/backend"
+    "packages/*"
   ],
   "license": "MIT",
   "turbo": {
+    "baseBranch": "origin/main",
     "pipeline": {
       "build": {
         "dependsOn": [
