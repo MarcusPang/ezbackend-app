@@ -2,6 +2,14 @@ export interface Comments {
   username: string; // user who commented
   content: string;
 }
+
+export interface Comment {
+  postId: number;
+  commenterId: number;
+  commenterUsername: string;
+  content: string;
+}
+
 export interface Post {
   id: number;
   posterId: number;
@@ -9,15 +17,17 @@ export interface Post {
   imageUrl: string;
   dateCreated: Date;
   archived: boolean;
+  likedBy: User[];
+  poster: User;
 }
 
 export interface PostContent {
-  postId: number;
-  postUser: User; // user who posted
-  postImageSrc: string;
-  postCaption: string;
-  postLikes: number[]; // userId of those who liked
-  postComments: Comments[];
+  id: number;
+  poster: User; // user who posted
+  imageUrl: string;
+  caption: string;
+  likes: number[]; // userId of those who liked
+  comments: Comments[];
   userLikedPhoto: boolean; // TODO check if current user in postLikes
   dateCreated: Date;
 }
@@ -42,4 +52,6 @@ export interface User {
     _raw: any;
     _json: any;
   };
+  followers: User[];
+  following: User[];
 }

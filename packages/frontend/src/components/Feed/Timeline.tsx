@@ -1,9 +1,13 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { following, photos } from '../../constants/sampleData';
+import { following } from '../../constants/sampleData';
+import usePost from '../../hooks/usePost';
+import { Post } from '../../types/components';
 import PostCard from '../Timeline/PostCard';
 
 const Timeline = () => {
+  const { posts, isLoading } = usePost({});
+  console.log(posts);
   return (
     <div className="container col-span-2">
       {!following ? (
@@ -12,11 +16,11 @@ const Timeline = () => {
         <p className="flex justify-center font-bold">
           Follow other people to see Photos
         </p>
-      ) : photos ? (
-        photos.map((content) => (
-          <PostCard key={content.postId} content={content} />
-        ))
-      ) : undefined}
+      ) : // !isLoading ? (
+      //   (posts as Post[]).map((post) => (
+      //     <PostCard key={post.posterId} content={post} />
+      //   ))):
+      undefined}
     </div>
   );
 };

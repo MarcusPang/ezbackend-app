@@ -1,12 +1,12 @@
+import { NextPage } from 'next';
 import Head from 'next/head';
+import Feed from '../components/Feed/Feed';
 import Hero from '../components/Layout/Hero';
 import Layout from '../components/Layout/Layout';
-import Feed from '../components/Feed/Feed';
-import useAuth from '../hooks/useAuth';
-import { NextPage } from 'next';
+import useUser from '../hooks/useUser';
 
 const Home: NextPage = () => {
-  const { user } = useAuth();
+  const { user } = useUser();
   return (
     <>
       <Head>

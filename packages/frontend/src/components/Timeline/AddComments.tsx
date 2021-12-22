@@ -1,36 +1,36 @@
-import {
-  Dispatch,
-  FormEventHandler,
-  forwardRef,
-  SetStateAction,
-  useState,
-} from 'react';
-import useAuth from '../../hooks/useAuth';
-import { Comments } from '../../types/components';
+import { FormEventHandler, forwardRef, useState } from 'react';
+import useComment from '../../hooks/useComment';
+import useUser from '../../hooks/useUser';
+import customFetch from '../../libs/customFetch';
+import formatGoogleUsername from '../../utils/formatGoogleUsername';
 
 interface AddCommentProps {
   postId: number;
-  comments: Comments[];
-  setComments: Dispatch<SetStateAction<Comments[]>>;
 }
 
 const PostAddComment = forwardRef<HTMLInputElement, AddCommentProps>(
-  ({ postId, comments, setComments }, commentInput) => {
-    const [comment, setComment] = useState('');
-    // TODO remove displayName
-    const { user } = useAuth();
+  ({ postId }, commentInput) => {
+    const [newComment, setNewComment] = useState('');
+    const { mutate } = useComment(postId);
+    const { user } = useUser();
 
     const handleSubmitComment: FormEventHandler<
       HTMLFormElement | HTMLButtonElement
-    > = (event) => {
+    > = async (event) => {
       event.preventDefault();
 
-      // setComments([
-      //   ...comments,
-      //   { username: user?.googleData.displayName, content: comment },
-      // ]);
-      setComment('');
-      // TODO update comments in database
+      const result = await customFetch.post('/comment', {
+        commenterId: user.id,
+        commenterUsername: formatGoogleUsername(user),
+        postId,
+        content: newComment,
+      });
+      // success
+      if (!result.error) {
+        setNewComment('');
+        // refresh comments
+        mutate('comment/post/?postId=' + postId);
+      }
     };
 
     return (
@@ -39,7 +39,7 @@ const PostAddComment = forwardRef<HTMLInputElement, AddCommentProps>(
           className="flex justify-between pl-0 pr-5"
           method="POST"
           onSubmit={(event) =>
-            comment.length >= 1
+            newComment.length >= 1
               ? handleSubmitComment(event)
               : event.preventDefault()
           }
@@ -51,16 +51,16 @@ const PostAddComment = forwardRef<HTMLInputElement, AddCommentProps>(
             type="text"
             name="add-comment"
             placeholder="Add a comment..."
-            value={comment}
-            onChange={({ target }) => setComment(target.value)}
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
             ref={commentInput}
           />
           <button
             className={`text-sm font-bold text-blue-medium ${
-              !comment && 'opacity-25'
+              !newComment && 'opacity-25'
             }`}
             type="button"
-            disabled={comment.length < 1}
+            disabled={newComment.length < 1}
             onClick={handleSubmitComment}
           >
             Post

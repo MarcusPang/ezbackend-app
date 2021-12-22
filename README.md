@@ -1,4 +1,4 @@
-# talkMore
+# sample
 
 Social Media application built using ezbackend
 

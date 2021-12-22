@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { DEFAULT_AVATAR_URL } from '../../constants/sampleData';
-import useAuth from '../../hooks/useAuth';
+import useUser from '../../hooks/useUser';
 import customFetch from '../../libs/customFetch';
 
 interface SuggestedProfileProps {
@@ -17,8 +17,9 @@ const SuggestedProfile = ({
   avatarUrl,
 }: SuggestedProfileProps) => {
   const [followed, setFollowed] = useState(false);
-  const { user } = useAuth();
+  const { user } = useUser();
 
+  // TODO refactor to SWR
   const handleFollowUser = async () => {
     let data: { success: boolean };
     if (followed) {

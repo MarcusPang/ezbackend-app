@@ -2,14 +2,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
 import { DEFAULT_AVATAR_URL } from '../../constants/sampleData';
-import useAuth from '../../hooks/useAuth';
+import useUser from '../../hooks/useUser';
 import formatGoogleUsername from '../../utils/formatGoogleUsername';
 
 const SidebarUser = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useUser();
   const username = user && formatGoogleUsername(user);
 
-  return !username ? (
+  return isLoading ? (
     <Skeleton count={1} height={61} />
   ) : (
     <div className="grid grid-cols-5 gap-4 mb-6 items-center">
@@ -18,7 +18,9 @@ const SidebarUser = () => {
           <Image
             layout="fill"
             className="rounded-full"
-            src={user ? user.googleData.photos[0].value : DEFAULT_AVATAR_URL}
+            src={
+              !isLoading ? user.googleData.photos[0].value : DEFAULT_AVATAR_URL
+            }
             alt={`${username} profile picture`}
             onError={(e) => {
               e.currentTarget.src = DEFAULT_AVATAR_URL;

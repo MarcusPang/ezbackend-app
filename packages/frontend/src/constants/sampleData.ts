@@ -85,9 +85,9 @@ export const sampleUser: User = {
 
 export const photos: PostContent[] = [
   {
-    postId: 1,
-    postCaption: 'caption',
-    postComments: [
+    id: 1,
+    caption: 'caption',
+    comments: [
       {
         content: 'comment',
         username: 'marcus',
@@ -98,15 +98,15 @@ export const photos: PostContent[] = [
       },
     ],
     dateCreated: new Date(),
-    postImageSrc: 'https://cataas.com/cat',
-    postLikes: [1],
+    imageUrl: 'https://cataas.com/cat',
+    likes: [1],
     userLikedPhoto: false,
-    postUser: sampleUser,
+    poster: sampleUser,
   },
   {
-    postId: 2,
-    postCaption: 'post 2',
-    postComments: [
+    id: 2,
+    caption: 'post 2',
+    comments: [
       {
         content: 'comment',
         username: 'marcus',
@@ -117,9 +117,9 @@ export const photos: PostContent[] = [
       },
     ],
     dateCreated: new Date(),
-    postImageSrc: 'https://cataas.com/cat',
-    postLikes: [1, 2],
+    imageUrl: 'https://cataas.com/cat',
+    likes: [1, 2],
     userLikedPhoto: false,
-    postUser: sampleUser,
+    poster: sampleUser,
   },
 ];

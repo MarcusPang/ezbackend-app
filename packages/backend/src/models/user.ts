@@ -12,7 +12,7 @@ export const user = new EzUser('User', ['google'], {
     nullable: true,
   },
   postsLiked: {
-    type: Type.ONE_TO_MANY,
+    type: Type.MANY_TO_MANY,
     target: 'Post',
     inverseSide: 'likedBy',
     nullable: true,
@@ -34,12 +34,14 @@ export const user = new EzUser('User', ['google'], {
     target: 'Follower',
     inverseSide: 'user',
     nullable: true,
+    eager: true, // TODO change to lazy
   },
   following: {
     type: Type.ONE_TO_MANY,
     target: 'Follower',
     inverseSide: 'follower',
     nullable: true,
+    eager: true, // TODO change to lazy
   },
 });
 
@@ -65,11 +67,11 @@ user.get('/postsLiked', { preHandler: checkLoggedIn }, async (req) => {
   });
 });
 
-user.get('/commentsLiked', { preHandler: checkLoggedIn }, async (req) => {
+user.get('/comments', { preHandler: checkLoggedIn }, async (req) => {
   const commentRepo = comment.getRepo();
   return await commentRepo.find({
     where: {
-      likedBy: req.user,
+      commenter: req.user,
     },
   });
 });
@@ -114,6 +116,7 @@ user.get('/suggestions', { preHandler: checkLoggedIn }, async (req) => {
   });
   const followingIds = followers.map((follower) => follower.userId);
 
+  // all users
   const users = await userRepo.find();
   const userIds = users.map((user) => user.id);
 

@@ -14,30 +14,25 @@ const PostCard = ({ content }: { content: PostContent }) => {
   return (
     <div className="rounded-lg col-span-4 bg-base-200 shadow-lg mb-12">
       <PostHeader
-        userId={content.postUser.id}
-        username={formatGoogleUsername(content.postUser)}
-        avatarUrl={content.postUser.googleData.photos[0].value}
+        userId={content.poster.id}
+        username={formatGoogleUsername(content.poster)}
+        avatarUrl={content.poster.googleData.photos[0].value}
       />
       <div className="relative h-[400px] object-cover">
-        <Image
-          src={content.postImageSrc}
-          layout="fill"
-          alt={content.postCaption}
-        />
+        <Image src={content.imageUrl} layout="fill" alt={content.caption} />
       </div>
       <PostActions
-        postId={content.postId}
-        totalLikes={content.postLikes.length}
+        postId={content.id}
+        totalLikes={content.likes.length}
         likedPhoto={content.userLikedPhoto}
         handleFocus={handleFocus}
       />
       <PostFooter
-        caption={content.postCaption}
-        username={formatGoogleUsername(content.postUser)}
+        caption={content.caption}
+        username={formatGoogleUsername(content.poster)}
       />
       <PostComments
-        postId={content.postId}
-        allComments={content.postComments}
+        postId={content.id}
         posted={content.dateCreated}
         ref={commentInput}
       />

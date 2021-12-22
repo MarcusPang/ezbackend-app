@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { FormEventHandler, useEffect, useState } from 'react';
 import Layout from '../components/Layout/Layout';
 import PostFooter from '../components/Timeline/Footer';
-import useAuth from '../hooks/useAuth';
+import useUser from '../hooks/useUser';
 import customFetch from '../libs/customFetch';
 import formatGoogleUsername from '../utils/formatGoogleUsername';
 
@@ -10,7 +10,7 @@ const Upload: NextPage = () => {
   const [url, setUrl] = useState('');
   const [caption, setCaption] = useState('');
   const [valid, setValid] = useState(false);
-  const { user } = useAuth();
+  const { user } = useUser();
 
   // simple check to make sure the url and caption are valid
   useEffect(() => {

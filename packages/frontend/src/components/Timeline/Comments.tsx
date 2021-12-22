@@ -1,18 +1,18 @@
 import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { forwardRef, useState } from 'react';
-import { Comments } from '../../types/components';
+import useComment from '../../hooks/useComment';
 import PostAddComment from './AddComments';
 
 interface CommentsProps {
   postId: number;
-  allComments: Comments[];
   posted: Date;
 }
 
 const PostComments = forwardRef<HTMLInputElement, CommentsProps>(
-  ({ allComments, postId, posted }, commentInput) => {
-    const [comments, setComments] = useState(allComments);
+  ({ postId, posted }, commentInput) => {
+    // const [comments, setComments] = useState(allComments);
+    const { comments, isLoading } = useComment(postId);
     const [commentsSlice, setCommentsSlice] = useState(0);
 
     const showMoreComments = () => {
@@ -24,7 +24,7 @@ const PostComments = forwardRef<HTMLInputElement, CommentsProps>(
     };
 
     const MoreCommentsButton = () => {
-      if (comments.length > 0) {
+      if (comments?.length > 0) {
         if (commentsSlice < comments.length) {
           return (
             <button
@@ -63,25 +63,26 @@ const PostComments = forwardRef<HTMLInputElement, CommentsProps>(
     return (
       <>
         <div className="p-4 pt-1">
-          {comments.slice(0, commentsSlice).map((item) => (
-            <p key={`${item.content}-${item.username}`} className="mb-1">
-              <Link href={`/p/${item.username}`} passHref>
-                <span className="mr-1 font-bold">{item.username}</span>
-              </Link>
-              <span>{item.content}</span>
-            </p>
-          ))}
+          {!isLoading &&
+            comments.slice(0, commentsSlice).map((item) => (
+              <p
+                key={`${item.commenterId}-${item.commenterUsername}`}
+                className="mb-1"
+              >
+                <Link href={`/profile/${item.commenterId}`} passHref>
+                  <span className="mr-1 font-bold">
+                    {item.commenterUsername}
+                  </span>
+                </Link>
+                <span>{item.content}</span>
+              </p>
+            ))}
           <MoreCommentsButton />
           <p className="text-slate-400 uppercase text-xs mt-2">
             {formatDistance(posted, new Date())} ago
           </p>
         </div>
-        <PostAddComment
-          postId={postId}
-          comments={comments}
-          setComments={setComments}
-          ref={commentInput}
-        />
+        <PostAddComment postId={postId} ref={commentInput} />
       </>
     );
   },

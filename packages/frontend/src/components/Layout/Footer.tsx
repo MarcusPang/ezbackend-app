@@ -50,7 +50,7 @@ const Footer = () => {
           </div>
         </div>
         <div>
-          <p>Copyright © 2021 - All right reserved by talkMore</p>
+          <p>Copyright © 2021 - All right reserved by marcus</p>
         </div>
       </div>
     </footer>
