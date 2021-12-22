@@ -38,6 +38,7 @@ if (process.env.DATABASE_URL) {
 app.start({
   backend: { typeorm: ormConfig },
   auth: {
-    successRedirectURL: 'http://localhost:3000',
+    // successRedirectURL: process.env.AUTH_SUCCESS_REDIRECT,
+    successRedirectURL: "http://localhost:3000",
   },
 });

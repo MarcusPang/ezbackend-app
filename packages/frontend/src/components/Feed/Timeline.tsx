@@ -1,12 +1,11 @@
 import React from 'react';
-import Skeleton from 'react-loading-skeleton';
-import { following } from '../../constants/sampleData';
 import usePost from '../../hooks/usePost';
 import { Post } from '../../types/components';
 import PostCard from '../Timeline/PostCard';
 
 const Timeline = () => {
   const { posts, isLoading } = usePost({});
+  // TODO implement following feed
   return (
     <div className="container col-span-2">
       {/* {!following ? (
