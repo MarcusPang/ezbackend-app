@@ -3,10 +3,11 @@ import customFetch, { completeURL } from '../utils/customFetch';
 import { Comment } from '../types/components';
 
 const useComment = (postId?: number) => {
-  const { data, error, mutate } = useSWR(
-    completeURL(`comment/${postId ? 'post/?postId=' + postId : ''}`),
-    customFetch.get,
-  );
+  let url = '/comment/';
+  if (postId) {
+    url += 'post/?postId=' + postId;
+  }
+  const { data, error, mutate } = useSWR(completeURL(url), customFetch.get);
 
   return {
     comments: data as Comment[],

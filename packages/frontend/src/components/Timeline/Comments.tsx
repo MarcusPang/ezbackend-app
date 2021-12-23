@@ -1,6 +1,7 @@
 import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { forwardRef, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import useComment from '../../hooks/useComment';
 import PostAddComment from './AddComments';
 import MoreCommentsButton from './MoreCommentsButton';
@@ -10,6 +11,7 @@ interface CommentsProps {
   posted: Date;
 }
 
+// TODO figure out why data sometimes can be the URL?
 const PostComments = forwardRef<HTMLInputElement, CommentsProps>(
   ({ postId, posted }, commentInput) => {
     const [commentsSlice, setCommentsSlice] = useState(0);
@@ -19,11 +21,9 @@ const PostComments = forwardRef<HTMLInputElement, CommentsProps>(
       <>
         <div className="p-4 pt-1">
           {!isLoading &&
+            Array.isArray(comments) &&
             comments.slice(0, commentsSlice).map((item) => (
-              <p
-                key={`${item.commenterId}-${item.commenterUsername}`}
-                className="mb-1"
-              >
+              <p key={`${item.commenterId}-${uuidv4()}`} className="mb-1">
                 <Link href={`/profile/${item.commenterId}`} passHref>
                   <span className="mr-1 font-bold">
                     {item.commenterUsername}
