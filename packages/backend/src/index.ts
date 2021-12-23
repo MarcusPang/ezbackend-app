@@ -26,14 +26,13 @@ if (process.env.DATABASE_URL) {
     type: 'postgres',
     url: process.env.DATABASE_URL,
     synchronize: true,
-    ssl: true,
-    // extra: {
-    //   ssl: {
-    //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //     // @ts-ignore
-    //     rejectUnauthorized: false,
-    //   },
-    // },
+    extra: {
+      ssl: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        rejectUnauthorized: false,
+      },
+    },
   };
 } else {
   ormConfig = {
