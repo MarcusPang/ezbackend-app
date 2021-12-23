@@ -3,6 +3,7 @@ import { EzBackend, EzBackendOpts, RecursivePartial } from '@ezbackend/common';
 import { EzCors } from '@ezbackend/cors';
 import { EzDbUI } from '@ezbackend/db-ui';
 import { EzOpenAPI } from '@ezbackend/openapi';
+import { readFileSync } from 'fs';
 import { comment, follower, post, user } from './models';
 
 const app = new EzBackend();
@@ -52,7 +53,11 @@ app.start({
       trustProxy: true,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      https: true,
+      // https: {
+      //   allowHTTP1: true,
+      //   key: readFileSync('./client-key.pem'),
+      //   cert: readFileSync('./client-cert.pem'),
+      // },
     },
   },
   auth: {
