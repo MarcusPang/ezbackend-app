@@ -25,8 +25,6 @@ app.addApp(post, { prefix: 'post' });
 app.addApp(comment, { prefix: 'comment' });
 app.addApp(follower, { prefix: 'follower' });
 
-const test = new EzApp()
-
 const PORT = process.env.PORT || 4000;
 
 // orm setup
