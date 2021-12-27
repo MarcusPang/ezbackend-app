@@ -1,10 +1,10 @@
 import React from 'react';
-import usePost from '../../hooks/usePost';
+import useFeed from '../../hooks/useFeed';
 import { Post } from '../../types/components';
 import PostCard from '../Timeline/PostCard';
 
 const Timeline = () => {
-  const { posts, isLoading } = usePost({});
+  const { posts, isLoading } = useFeed();
   // TODO implement following feed
   return (
     <div className="container col-span-2">

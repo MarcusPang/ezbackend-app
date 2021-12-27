@@ -2,7 +2,12 @@ import useSWR from 'swr';
 import customFetch, { completeURL } from '../utils/customFetch';
 import { Post } from '../types/components';
 
-const usePost = ({ id, userId }: { id?: number; userId?: number }) => {
+interface UsePostArguments {
+  id?: number;
+  userId?: number;
+}
+
+const usePost = ({ id, userId }: UsePostArguments) => {
   let url = '/post/';
   if (id) {
     url += id;

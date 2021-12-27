@@ -1,5 +1,7 @@
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { FormEventHandler, useEffect, useState } from 'react';
+import Alert from '../components/Layout/Alert';
 import Layout from '../components/Layout/Layout';
 import PostFooter from '../components/Timeline/Footer';
 import useUser from '../hooks/useUser';
@@ -10,6 +12,8 @@ const Upload: NextPage = () => {
   const [url, setUrl] = useState('');
   const [caption, setCaption] = useState('');
   const [valid, setValid] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const router = useRouter();
   const { user } = useUser();
 
   // simple check to make sure the url and caption are valid
@@ -19,7 +23,7 @@ const Upload: NextPage = () => {
     } else {
       setValid(false);
     }
-  }, [caption, url, valid]);
+  }, [caption, url]);
 
   const uploadFormHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -32,9 +36,11 @@ const Upload: NextPage = () => {
         dateCreated: new Date(),
         archived: false,
       });
-      return {
-        success: !!result.id,
-      };
+      if (result.id) {
+        router.push('/');
+      } else {
+        setShowAlert(true);
+      }
     }
   };
 
@@ -60,6 +66,18 @@ const Upload: NextPage = () => {
     <Layout>
       <div className="grid grid-cols-3 gap-4">
         <div className="rounded-lg container col-span-2 bg-base-200 shadow-lg mb-12">
+          {showAlert && (
+            <Alert
+              message="Submission failed! Check URL again."
+              buttons={[
+                {
+                  class: 'btn-primary',
+                  name: 'close',
+                  fn: () => setShowAlert(false),
+                },
+              ]}
+            />
+          )}
           <div className="h-[480px]  object-cover">
             {url ? (
               <>

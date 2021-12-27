@@ -22,6 +22,7 @@ export interface Post {
 }
 
 // google user only
+// TODO format user information for security reasons
 export interface User {
   id: number;
   googleId: string;

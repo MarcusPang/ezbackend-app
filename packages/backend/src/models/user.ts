@@ -34,14 +34,12 @@ export const user = new EzUser('User', ['google'], {
     target: 'Follower',
     inverseSide: 'user',
     nullable: true,
-    eager: true, // TODO change to lazy
   },
   following: {
     type: Type.ONE_TO_MANY,
     target: 'Follower',
     inverseSide: 'follower',
     nullable: true,
-    eager: true, // TODO change to lazy
   },
 });
 
@@ -78,30 +76,28 @@ user.get('/comments', { preHandler: checkLoggedIn }, async (req) => {
 
 user.get('/followers', { preHandler: checkLoggedIn }, async (req) => {
   const followerRepo = follower.getRepo();
-  const userRepo = user.getRepo();
-
-  const followers = await followerRepo.find({
+  return await followerRepo.find({
+    select: ['user'],
+    relations: ['user'],
     where: {
-      userId: req.user.id,
+      user: {
+        id: req.user.id,
+      },
     },
   });
-  const followingIds = followers.map((follower) => follower.userId);
-
-  return await userRepo.findByIds(followingIds);
 });
 
 user.get('/following', { preHandler: checkLoggedIn }, async (req) => {
   const followerRepo = follower.getRepo();
-  const userRepo = user.getRepo();
-
-  const followers = await followerRepo.find({
+  return await followerRepo.find({
+    select: ['user'],
+    relations: ['user'],
     where: {
-      followerId: req.user.id,
+      follower: {
+        id: req.user.id,
+      },
     },
   });
-  const followingIds = followers.map((follower) => follower.userId);
-
-  return await userRepo.findByIds(followingIds);
 });
 
 // dummy suggestions endpoint which returns userIds of users not followed by current user

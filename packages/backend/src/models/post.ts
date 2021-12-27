@@ -1,15 +1,13 @@
 import { EzModel, Type } from '@ezbackend/common';
+import { user } from '.';
 import { checkLoggedIn } from '../utils/checkLoggedIn';
-import { user } from './user';
 
-// TODO change eager to lazy
 export const post = new EzModel('Post', {
   poster: {
     type: Type.MANY_TO_ONE,
     target: 'User',
     inverseSide: 'posts',
     joinColumn: true,
-    eager: true,
   },
   comments: {
     type: Type.ONE_TO_MANY,
@@ -21,7 +19,6 @@ export const post = new EzModel('Post', {
     type: Type.MANY_TO_MANY,
     target: 'User',
     inverseSide: 'postsLiked',
-    eager: true,
     joinTable: true,
     nullable: true,
   },
@@ -46,6 +43,24 @@ post.router
   .for('createOne', 'updateOne', 'deleteOne')
   .preHandler(checkLoggedIn);
 
+post.get(
+  '/feed',
+  {
+    preHandler: checkLoggedIn,
+  },
+  async (req) => {
+    const postRepo = post.getRepo();
+    return await postRepo
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.poster', 'poster')
+      .leftJoinAndSelect('post.likedBy', 'likedBy')
+      .leftJoin('poster.followers', 'followers')
+      .where('followers.followerId = :userId', { userId: req.user.id }) // following posts
+      .orWhere('post.posterId = :userId', { userId: req.user.id }) // own posts
+      .getMany();
+  },
+);
+
 // TODO db-ui display looks different from default CRUD
 post.get(
   '/user',
@@ -64,10 +79,12 @@ post.get(
       where: {
         posterId: userId,
       },
+      relations: ['likedBy'],
     });
   },
 );
 
+// TODO refactor to array of numbers
 post.post(
   '/like',
   {
@@ -94,13 +111,13 @@ post.post(
       };
     }
 
-    const userRepo = user.getRepo();
     const postRepo = post.getRepo();
+    const userRepo = user.getRepo();
     try {
-      const userLiked = await userRepo.findOneOrFail(userId);
       const postLiked = await postRepo.findOneOrFail(postId);
+      const userLiked = await userRepo.findOneOrFail(userId);
 
-      postLiked.likedBy = [...(postLiked.likedBy || []), userLiked];
+      postLiked.likedBy = [...(postLiked.likedBy || []), userLiked]; // TODO change to userId
 
       await postRepo.save(postLiked);
     } catch (e) {

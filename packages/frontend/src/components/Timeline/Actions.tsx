@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import useUser from '../../hooks/useUser';
-import customFetch from '../../utils/customFetch';
 import { CustomResponse, CustomSuccess, User } from '../../types/components';
+import customFetch from '../../utils/customFetch';
 
 interface ActionsProps {
   postId: number;

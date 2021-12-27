@@ -12,7 +12,8 @@
     "@ezbackend/openapi": "^0.1.0",
     "@ezbackend/utils": "^0.1.0",
     "@hapi/boom": "^9.1.4",
-    "pg": "^8.7.1"
+    "pg": "^8.7.1",
+    "socket.io-client": "^4.4.0"
   },
   "devDependencies": {
     "@types/node": "^16.11.12",
