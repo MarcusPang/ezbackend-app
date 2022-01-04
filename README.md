@@ -6,10 +6,11 @@ Social Media application built using ezbackend
 
 Users can:
 
-- [x] add posts 
-- [x] comment under post 
+- [x] add posts
+- [x] comment under post
 - [x] see user posts
 - [x] like posts
+- [ ] search other users/posts
 - [ ] like comments
 - [ ] follow each other
 - [ ] chat with other users

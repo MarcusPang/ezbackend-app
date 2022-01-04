@@ -34,12 +34,14 @@ export const user = new EzUser('User', ['google'], {
     target: 'Follower',
     inverseSide: 'user',
     nullable: true,
+    eager: true,
   },
   following: {
     type: Type.ONE_TO_MANY,
     target: 'Follower',
     inverseSide: 'follower',
     nullable: true,
+    eager: true,
   },
 });
 

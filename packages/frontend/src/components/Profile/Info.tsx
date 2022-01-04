@@ -9,6 +9,8 @@ interface AvatarProps {
 const ProfileAvatar = ({ userId }: AvatarProps) => {
   const { user, isLoading } = useUser(+userId!);
 
+  console.log(user && user.followers);
+
   return (
     <div className="max-w-3xl mx-auto grid grid-cols-4 mb-12">
       <div className="avatar h-40 w-40 rounded-full col-span-1">
@@ -35,6 +37,7 @@ const ProfileAvatar = ({ userId }: AvatarProps) => {
         <h4 className="font-semibold mb-5">
           {!isLoading &&
             user &&
+            user.followers &&
             `Followers: ${user.followers.length} Following: ${user.following.length}`}
         </h4>
         <span>Sample text</span>
