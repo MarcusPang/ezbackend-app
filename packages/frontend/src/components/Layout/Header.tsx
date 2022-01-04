@@ -38,11 +38,6 @@ const icons: {
     alt: 'search',
     icon: CompassIcon,
   },
-  {
-    href: '/liked',
-    alt: 'liked photos',
-    icon: HeartIcon,
-  },
 ];
 
 const Header = () => {
