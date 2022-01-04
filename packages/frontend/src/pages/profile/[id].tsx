@@ -35,9 +35,8 @@ const Profile: NextPage<
                 className="relative h-80 hover:opacity-80 ease-in-out transition-opacity rounded-lg shadow-lg"
                 key={post.id}
               >
-                <Image
-                  layout="fill"
-                  className="object-cover rounded-lg"
+                <img
+                  className="object-cover rounded-lg h-full w-full"
                   src={post.imageUrl}
                   alt={post.imageUrl}
                 />
