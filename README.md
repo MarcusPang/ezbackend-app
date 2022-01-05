@@ -10,9 +10,9 @@ Users can:
 - [x] comment under post
 - [x] see user posts
 - [x] like posts
+- [x] follow each other
 - [ ] search other users/posts
 - [ ] like comments
-- [ ] follow each other
 - [ ] chat with other users
 - [ ] join communities and chat with other users in a group chat
 
