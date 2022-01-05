@@ -34,14 +34,12 @@ export const user = new EzUser('User', ['google'], {
     target: 'Follower',
     inverseSide: 'user',
     nullable: true,
-    eager: true,
   },
   following: {
     type: Type.ONE_TO_MANY,
     target: 'Follower',
     inverseSide: 'follower',
     nullable: true,
-    eager: true,
   },
 });
 
@@ -61,6 +59,7 @@ user.get('/posts', { preHandler: checkLoggedIn }, async (req) => {
 user.get('/postsLiked', { preHandler: checkLoggedIn }, async (req) => {
   const postRepo = post.getRepo();
   return await postRepo.find({
+    // relations: ['likedBy'],
     where: {
       likedBy: req.user,
     },
@@ -76,31 +75,55 @@ user.get('/comments', { preHandler: checkLoggedIn }, async (req) => {
   });
 });
 
-user.get('/followers', { preHandler: checkLoggedIn }, async (req) => {
-  const followerRepo = follower.getRepo();
-  return await followerRepo.find({
-    select: ['user'],
-    relations: ['user'],
-    where: {
-      user: {
-        id: req.user.id,
+user.get(
+  '/followers',
+  {
+    preHandler: checkLoggedIn,
+    schema: {
+      querystring: {
+        userId: { type: 'number' },
       },
     },
-  });
-});
+  },
+  async (req) => {
+    const userId = (req.query as { userId: number }).userId;
+    const followerRepo = follower.getRepo();
+    return await followerRepo.find({
+      select: ['user'],
+      relations: ['user'],
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+    });
+  },
+);
 
-user.get('/following', { preHandler: checkLoggedIn }, async (req) => {
-  const followerRepo = follower.getRepo();
-  return await followerRepo.find({
-    select: ['user'],
-    relations: ['user'],
-    where: {
-      follower: {
-        id: req.user.id,
+user.get(
+  '/following',
+  {
+    preHandler: checkLoggedIn,
+    schema: {
+      querystring: {
+        userId: { type: 'number' },
       },
     },
-  });
-});
+  },
+  async (req) => {
+    const userId = (req.query as { userId: number }).userId;
+    const followerRepo = follower.getRepo();
+    return await followerRepo.find({
+      select: ['user'],
+      relations: ['user'],
+      where: {
+        follower: {
+          id: userId,
+        },
+      },
+    });
+  },
+);
 
 // dummy suggestions endpoint which returns userIds of users not followed by current user
 user.get('/suggestions', { preHandler: checkLoggedIn }, async (req) => {

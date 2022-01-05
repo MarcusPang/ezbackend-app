@@ -42,8 +42,6 @@ export interface User {
     _raw: any;
     _json: any;
   };
-  followers: User[];
-  following: User[];
 }
 
 export interface Error {

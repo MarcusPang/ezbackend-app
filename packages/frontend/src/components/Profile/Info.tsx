@@ -1,20 +1,26 @@
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 import { DEFAULT_AVATAR_URL } from '../../constants/sampleData';
+import useFollower from '../../hooks/useFollower';
+import useFollowing from '../../hooks/useFollowing';
 import useUser from '../../hooks/useUser';
 interface AvatarProps {
   userId: number;
 }
 
 const ProfileAvatar = ({ userId }: AvatarProps) => {
-  const { user, isLoading } = useUser(+userId!);
-
-  console.log(user && user.followers);
+  const { user, isLoading: isUserLoading } = useUser(+userId!);
+  const { users: followers, isLoading: isFollowersLoading } = useFollower(
+    +userId!,
+  );
+  const { users: following, isLoading: isFollowingLoading } = useFollowing(
+    +userId!,
+  );
 
   return (
     <div className="max-w-3xl mx-auto grid grid-cols-4 mb-12">
       <div className="avatar h-40 w-40 rounded-full col-span-1">
-        {isLoading ? (
+        {isUserLoading ? (
           <Skeleton count={1} height={160} width={160} />
         ) : (
           user && (
@@ -32,13 +38,12 @@ const ProfileAvatar = ({ userId }: AvatarProps) => {
       </div>
       <div className="col-span-3 py-10">
         <h3 className="font-bold text-lg mb-1">
-          {!isLoading && user && user.googleData.displayName}
+          {!isUserLoading && user && user.googleData.displayName}
         </h3>
         <h4 className="font-semibold mb-5">
-          {!isLoading &&
-            user &&
-            user.followers &&
-            `Followers: ${user.followers.length} Following: ${user.following.length}`}
+          {`
+          Followers: ${!isFollowersLoading && followers.length} Following:
+          ${!isFollowingLoading && following.length}`}
         </h4>
         <span>Sample text</span>
       </div>
